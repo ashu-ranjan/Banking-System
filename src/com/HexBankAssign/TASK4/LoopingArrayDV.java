@@ -6,6 +6,8 @@ import java.util.Scanner;
 public class LoopingArrayDV {
     public static void main(String[] args) {
 
+        // CUSTOMERS ACCOUNTS AND BALANCE DECLARATION
+
         HashMap<Integer, Double> accounts = new HashMap<>();
         accounts.put(10001, 8039.98);
         accounts.put(10002, 47938.78);
@@ -16,6 +18,8 @@ public class LoopingArrayDV {
         Scanner sc = new Scanner(System.in);
 
         int accNumber;
+
+        // LOOPING AND VALIDATION
 
         while (true){
             System.out.print("Enter your account number : ");
