@@ -1,4 +1,4 @@
-package com.HexBankAssign.TASK5;
+package HexBankAssign.TASK5;
 
 import java.util.Scanner;
 
