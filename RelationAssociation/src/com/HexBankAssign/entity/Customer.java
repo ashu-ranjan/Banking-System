@@ -58,7 +58,7 @@ public class Customer {
             this.phoneNumber = phoneNumber;
         }
         else
-            throw new IllegalArgumentException("Invalid Phone Number format!");
+            throw new IllegalArgumentException("Invalid Phone Number format! Must contain 10 digits.");
     }
 
     public void displayCustInfo(){

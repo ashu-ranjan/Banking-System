@@ -1,3 +1,5 @@
+// TASK 10
+
 package com.HexBankAssign.entity;
 
 import java.util.HashMap;
@@ -17,13 +19,20 @@ public class Bank {
         return accounts.get(accNumber).getAccBalance();
     }
 
-    public double deposit(long accNumber, double amount){
-        accounts.get(accNumber).deposit(amount);
-        return accounts.get(accNumber).getAccBalance();
+    public String deposit(long accNumber, double amount){
+        String depositMessage = accounts.get(accNumber).deposit(amount,false);
+        if (!depositMessage.isEmpty()){
+            System.out.println(depositMessage);
+        }
+        return depositMessage;
     }
 
     public double withdraw(long accNumber, double amount){
-        if (accounts.get(accNumber).withdraw(amount)) {
+        String withdrawMessage = accounts.get(accNumber).withdraw(amount,false);
+        if (!withdrawMessage.isEmpty()){
+            System.out.println(withdrawMessage);
+        }
+        if (withdrawMessage.startsWith("Withdrawal Successful")) {
             return accounts.get(accNumber).getAccBalance();
         }
         return -1;
@@ -32,11 +41,19 @@ public class Bank {
 
     public boolean transfer(long fromAcc, long toAcc, double amount){
         if(accounts.containsKey(fromAcc) && accounts.containsKey(toAcc)){
-            if (accounts.get(fromAcc).withdraw(amount)){
-                accounts.get(toAcc).deposit(amount);
-                return true;
+                String withdrawMessage = accounts.get(fromAcc).withdraw(amount,true);
+
+                if (withdrawMessage.startsWith("Withdrawal Successful")) {
+                    accounts.get(toAcc).deposit(amount,true);
+                    System.out.println("Transferred amount " + amount + " Successfully");
+                    return true;
+                } else{
+                    System.out.println("Transferred failed : " + withdrawMessage);
+                }
+
+            } else {
+                System.out.println("Transfer failed due to insufficient balance funds.");
             }
-        }
         return false;
     }
 

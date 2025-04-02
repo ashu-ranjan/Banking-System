@@ -1,3 +1,5 @@
+// TASK 10.2
+
 package com.HexBankAssign.entity;
 
 public class Account {
@@ -31,24 +33,23 @@ public class Account {
         return customer;
     }
 
-    public void deposit(double amount){
+    public String deposit(double amount, boolean isTransfer){
         if (amount >= 500){
             accBalance += amount;
-            System.out.print("Successfully Deposited : " + amount);
+            return isTransfer ? "" : "Successfully Deposited : " + amount;
         }
-        else
-            System.out.println("Deposit amount must be 500 or above.");
+        return isTransfer ? "" : "Deposit amount must be 500 or above.";
     }
 
-    public boolean withdraw(double amount){
-        if (accBalance >= amount){
+    public String withdraw(double amount, boolean isTransfer) {
+        if (accBalance >= amount) {
             accBalance -= amount;
-            System.out.print("Successfully Withdrawn : " + amount);
+            return "Withdrawal Successful: " + amount;
+        } else {
+            return "Insufficient funds. Withdrawal failed.";
         }
-        else
-            System.out.println("Insufficient Balance!");
-        return false;
     }
+
 
     public void displayAccInfo(){
         System.out.println("\n----> Account Details <----");

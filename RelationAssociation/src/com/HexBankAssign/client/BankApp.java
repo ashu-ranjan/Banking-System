@@ -1,3 +1,5 @@
+// TASK 10
+
 package com.HexBankAssign.client;
 
 import com.HexBankAssign.entity.Account;
@@ -5,14 +7,12 @@ import com.HexBankAssign.entity.Bank;
 import com.HexBankAssign.entity.Customer;
 
 import java.util.Scanner;
-import java.util.UUID;
 
 public class BankApp {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
         Bank bank = new Bank();
-        Account acct = null;
 
         while (true){
 
@@ -53,7 +53,7 @@ public class BankApp {
                 if (choice == 6)
                     break;
                 else if (choice == 7) {
-                    System.out.println("Exiting !!! Thankyou for using HexBank Services.");
+                    System.out.println("Exiting !!! Thank you for using HexBank Services.");
                     System.exit(0);
                 }
 
@@ -73,11 +73,16 @@ public class BankApp {
                         break;
 
                     case 3:
-                        System.out.print("Enter from Account : ");
+                        System.out.print("Enter From Account: ");
                         long fromAcc = sc.nextLong();
-                        System.out.print("Enter to Account : ");
+                        sc.nextLine();
+                        System.out.print("Enter To Account: ");
                         long toAcc = sc.nextLong();
-                        bank.transfer(fromAcc, toAcc, sc.nextDouble());
+                        sc.nextLine();
+                        System.out.print("Enter Amount to Transfer: ");
+                        double transferAmount = sc.nextDouble();
+                        sc.nextLine();
+                        bank.transfer(fromAcc, toAcc, transferAmount);
                         break;
 
                     case 4:
