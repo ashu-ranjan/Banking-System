@@ -1,22 +1,27 @@
-// TASK 11.7
+// TASK 13.2
 
-package com.HexBankAssign.bean;
+package com.HexBankAssign.Set.bean;
 
-import com.HexBankAssign.exception.InvalidAccountException;
-import com.HexBankAssign.service.IBankServiceProvider;
+import com.HexBankAssign.Set.exception.DuplicateAccountException;
+import com.HexBankAssign.Set.exception.InvalidAccountException;
+import com.HexBankAssign.Set.service.IBankServiceProvider;
+import com.HexBankAssign.Set.util.AccountComparator;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class BankServiceProviderImpl extends CustomerServiceProviderImpl implements IBankServiceProvider {
 
-    private List<Account> accountList = new ArrayList<>();
+    // Set used as per the question no.13 of the assignment
+    private Set<Account> accountSet;
+
     private String branchName;
     private String branchAddress;
 
     public BankServiceProviderImpl(String branchName, String branchAddress) {
         this.branchName = branchName;
         this.branchAddress = branchAddress;
+        this.accountSet = new TreeSet<>(new AccountComparator());
     }
 
     @Override
@@ -32,33 +37,49 @@ public class BankServiceProviderImpl extends CustomerServiceProviderImpl impleme
             System.out.println("Invalid account type.");
             return null;
         }
-        accounts.put(newAccount.getAccNumber(), newAccount);
-        System.out.println("\nAccount created successfully! Account Number: " + newAccount.getAccNumber());
+
+        for (Account acc : accountSet) {
+            if (acc.getCustomer().getFirstName().equalsIgnoreCase(customer.getFirstName()) &&
+                    acc.getCustomer().getLastName().equalsIgnoreCase(customer.getLastName())) {
+                throw new DuplicateAccountException("Error: Account for " + customer.getFirstName() + " " + customer.getLastName() + " already exists!");
+            }
+        }
+
+        accountSet.add(newAccount);
+        System.out.println("\nAccount created successfully! Your Account Number is : " + newAccount.getAccNumber());
         return newAccount;
     }
 
     @Override
     public void listAccount() {
-        if (accounts.isEmpty()) {
+        if (accountSet.isEmpty()) {
             System.out.println("No accounts found.");
             return;
         }
         System.out.println("\n--- List of Accounts ---");
-        for (Account acc : accounts.values()) {
+        for (Account acc : accountSet) {
             acc.displayAccInfo();
         }
     }
 
     @Override
     public void calculateInterest(long accNumber) throws InvalidAccountException {
-        Account acc = accounts.get(accNumber);
+        Account acc = null;
+        for (Account a : accountSet) {
+            if (a.getAccNumber() == accNumber){
+                acc = a;
+                break;
+            }
+        }
+
         if (acc == null) {
             throw new InvalidAccountException("Error: Account Number " + accNumber + " not found.");
         }
 
+
         if (acc instanceof SavingAccount) {
             ((SavingAccount) acc).calculateInterest();
-            double interest = acc.getAccBalance() - (acc.getAccBalance() / (1 + 0.04));
+            double interest = acc.getAccBalance() * 0.04;
             acc.deposit(interest, true);
             System.out.println("Interest of " + interest + " added to Account " + acc.getAccNumber());
         } else {
@@ -66,5 +87,13 @@ public class BankServiceProviderImpl extends CustomerServiceProviderImpl impleme
         }
     }
 
-
+    @Override
+    public Account findAccount(long accNumber) throws InvalidAccountException {
+        for (Account a : accountSet) {
+            if (a.getAccNumber() == accNumber) {
+                return a;
+            }
+        }
+        throw new InvalidAccountException("Account Number " + accNumber + " not found.");
+    }
 }

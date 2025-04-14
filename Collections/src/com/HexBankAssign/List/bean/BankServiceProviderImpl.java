@@ -1,16 +1,18 @@
-// TASK 11.7
+// TASK 13.1
 
-package com.HexBankAssign.bean;
+package com.HexBankAssign.List.bean;
 
-import com.HexBankAssign.exception.InvalidAccountException;
-import com.HexBankAssign.service.IBankServiceProvider;
+import com.HexBankAssign.List.exception.InvalidAccountException;
+import com.HexBankAssign.List.service.IBankServiceProvider;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class BankServiceProviderImpl extends CustomerServiceProviderImpl implements IBankServiceProvider {
 
+    // List used as per the question no.13 of the assignment
     private List<Account> accountList = new ArrayList<>();
+
     private String branchName;
     private String branchAddress;
 
@@ -32,29 +34,37 @@ public class BankServiceProviderImpl extends CustomerServiceProviderImpl impleme
             System.out.println("Invalid account type.");
             return null;
         }
-        accounts.put(newAccount.getAccNumber(), newAccount);
-        System.out.println("\nAccount created successfully! Account Number: " + newAccount.getAccNumber());
+        accountList.add(newAccount);
+        System.out.println("\nAccount created successfully! Your Account Number is : " + newAccount.getAccNumber());
         return newAccount;
     }
 
     @Override
     public void listAccount() {
-        if (accounts.isEmpty()) {
+        if (accountList.isEmpty()) {
             System.out.println("No accounts found.");
             return;
         }
         System.out.println("\n--- List of Accounts ---");
-        for (Account acc : accounts.values()) {
+        for (Account acc : accountList) {
             acc.displayAccInfo();
         }
     }
 
     @Override
     public void calculateInterest(long accNumber) throws InvalidAccountException {
-        Account acc = accounts.get(accNumber);
+        Account acc = null;
+        for (Account a : accountList) {
+            if (a.getAccNumber() == accNumber){
+                acc = a;
+                break;
+            }
+        }
+
         if (acc == null) {
             throw new InvalidAccountException("Error: Account Number " + accNumber + " not found.");
         }
+
 
         if (acc instanceof SavingAccount) {
             ((SavingAccount) acc).calculateInterest();
@@ -66,5 +76,15 @@ public class BankServiceProviderImpl extends CustomerServiceProviderImpl impleme
         }
     }
 
+
+    @Override
+    public Account findAccount(long accNumber) throws InvalidAccountException {
+        for (Account a : accountList) {
+            if (a.getAccNumber() == accNumber) {
+                return a;
+            }
+        }
+        throw new InvalidAccountException("Account Number " + accNumber + " not found.");
+    }
 
 }

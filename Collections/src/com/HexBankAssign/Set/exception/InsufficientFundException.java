@@ -1,6 +1,4 @@
-// TASK 12.1
-
-package com.HexBankAssign.exception;
+package com.HexBankAssign.Set.exception;
 
 public class InsufficientFundException extends Exception {
     public InsufficientFundException(String message) {

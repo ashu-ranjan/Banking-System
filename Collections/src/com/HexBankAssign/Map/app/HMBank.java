@@ -1,18 +1,18 @@
-// TASK 12.4
+// TASK 13.3
 
-package com.HexBankAssign.app;
+package com.HexBankAssign.Map.app;
 
-import com.HexBankAssign.bean.Account;
-import com.HexBankAssign.bean.BankServiceProviderImpl;
-import com.HexBankAssign.bean.Customer;
-import com.HexBankAssign.exception.InsufficientFundException;
-import com.HexBankAssign.exception.InvalidAccountException;
-import com.HexBankAssign.exception.OverDraftLimitExcededException;
+import com.HexBankAssign.Map.bean.Account;
+import com.HexBankAssign.Map.bean.BankServiceProviderImpl;
+import com.HexBankAssign.Map.bean.Customer;
+import com.HexBankAssign.Map.exception.InsufficientFundException;
+import com.HexBankAssign.Map.exception.InvalidAccountException;
+import com.HexBankAssign.Map.exception.OverDraftLimitExcededException;
 
 import java.util.Scanner;
 
 public class HMBank {
-    public static void main(String[] args) throws InvalidAccountException, InsufficientFundException, OverDraftLimitExcededException {
+    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
         BankServiceProviderImpl bank = new BankServiceProviderImpl("HM Bank", "Arrah, Bihar");
@@ -30,7 +30,9 @@ public class HMBank {
             String phone = sc.nextLine();
             System.out.print("Enter Address : ");
             String address = sc.nextLine();
+
             Customer customer = new Customer(firstName, lastName, email, phone, address);
+
             System.out.print("Enter Account Type (Savings/Current) : ");
             String accType = sc.nextLine();
             System.out.print("Enter Initial Balance : ");

@@ -1,6 +1,4 @@
-// TASK 12.3
-
-package com.HexBankAssign.exception;
+package com.HexBankAssign.Map.exception;
 
 public class OverDraftLimitExcededException extends Exception {
     public OverDraftLimitExcededException(String message) {
